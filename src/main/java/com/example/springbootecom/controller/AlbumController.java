@@ -1,6 +1,6 @@
 package com.example.springbootecom.controller;
 
-import com.example.springbootecom.dto.Album;
+import com.example.springbootecom.dto.AlbumDTO;
 import com.example.springbootecom.service.AlbumService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -19,19 +19,19 @@ public class AlbumController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> findAlbumById(@PathVariable Integer id){
-        Album album = albumService.findAlbumById(id);
-        return new ResponseEntity<>(album,HttpStatus.OK);
+        AlbumDTO albumDTO = albumService.findAlbumById(id);
+        return new ResponseEntity<>(albumDTO,HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<?> saveAlbumById(@RequestBody Album album){
-        Album newAlbum = albumService.addNewAlbum(album);
-        return new ResponseEntity<>(newAlbum, HttpStatus.CREATED);
+    public ResponseEntity<?> saveAlbumById(@RequestBody AlbumDTO albumDTO){
+        AlbumDTO newAlbumDTO = albumService.addNewAlbum(albumDTO);
+        return new ResponseEntity<>(newAlbumDTO, HttpStatus.CREATED);
     }
 
     @GetMapping()
     public ResponseEntity<?> findAllAlbums(){
-        List<Album> albumlist = albumService.findAllAlbums();
+        List<AlbumDTO> albumlist = albumService.findAllAlbums();
         return new ResponseEntity<>(albumlist,HttpStatus.OK);
     }
 
@@ -43,8 +43,8 @@ public class AlbumController {
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateAlbumById(@PathVariable Integer id, @RequestBody Album album){
-        return new ResponseEntity<>(albumService.updateAlbum(id,album),HttpStatus.OK);
+    public ResponseEntity<?> updateAlbumById(@PathVariable Integer id, @RequestBody AlbumDTO albumDTO){
+        return new ResponseEntity<>(albumService.updateAlbum(id, albumDTO),HttpStatus.OK);
     }
 
 }

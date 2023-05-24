@@ -1,6 +1,6 @@
 package com.example.springbootecom.service;
 
-import com.example.springbootecom.dto.Album;
+import com.example.springbootecom.dto.AlbumDTO;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -10,33 +10,33 @@ import java.util.Random;
 @Service
 public class AlbumService {
 
-    private List<Album> albumList = new ArrayList<>();
+    private List<AlbumDTO> albumDTOList = new ArrayList<>();
 
 //    save Album to DB
-    public Album addNewAlbum(Album album){
-        album.setAlbumID(new Random().nextInt(3756));
-        albumList.add(album);
-        return album;
+    public AlbumDTO addNewAlbum(AlbumDTO albumDTO){
+        albumDTO.setAlbumID(new Random().nextInt(3756));
+        albumDTOList.add(albumDTO);
+        return albumDTO;
     }
 
 //    return All Albums in DB
-    public List<Album> findAllAlbums(){
-        return albumList;
+    public List<AlbumDTO> findAllAlbums(){
+        return albumDTOList;
     }
 
 //    find an Album by ID - or else Null (handle this later)
-    public Album findAlbumById(Integer albumId){
-        return albumList.stream().filter(album -> album.getAlbumID()==albumId).findFirst().orElse(null);
+    public AlbumDTO findAlbumById(Integer albumId){
+        return albumDTOList.stream().filter(albumDTO -> albumDTO.getAlbumID()==albumId).findFirst().orElse(null);
     }
 
     public void deleteAlbumById(Integer albumId){
-        Album album =findAlbumById(albumId);
-        albumList.remove(album);
+        AlbumDTO albumDTO =findAlbumById(albumId);
+        albumDTOList.remove(albumDTO);
     }
 
-    public Album updateAlbum(Integer albumId,Album album){
-        addNewAlbum(album);
-        return album;
+    public AlbumDTO updateAlbum(Integer albumId, AlbumDTO albumDTO){
+        addNewAlbum(albumDTO);
+        return albumDTO;
     }
 
 }
