@@ -4,10 +4,12 @@
 
 For further reference, please consider the following sections:
 #### Web
-* Spring Boot Starter Web
+* _Spring Boot Starter Web_
 * Lombok
 * Web Layer - REST endpoints, HTTP methods
 * Web Layer Testing - @WebMVCTest(AlbumController.class) / MockMVC
+* _Spring Boot Starter Validation_
+* Validation of **AlbumRequestDTO** at REST endpoints
 
 
 #### Data Layer

@@ -31,9 +31,9 @@ class WebLayerTests {
     void shouldReturnListOfAlbums() throws Exception {
 
         when(albumService.findAllAlbums()).thenReturn(List.of(
-                new AlbumDTOResponse("Dark Side of the Moon","Pink Floyd", LocalDate.parse("1966-11-07"),19.99),
-                new AlbumDTOResponse("Abbey Road","The Beatles",LocalDate.parse("1969-12-08"),19.99),
-                new AlbumDTOResponse("Hunky Dory","David Bowie",LocalDate.parse("1969-12-08"),19.99)));
+                new AlbumDTOResponse("Dark Side of the Moon","Pink Floyd", LocalDate.parse("1966-11-07"),19.99,"Rock"),
+                new AlbumDTOResponse("Abbey Road","The Beatles",LocalDate.parse("1969-12-08"),19.99,"Rock"),
+                new AlbumDTOResponse("Hunky Dory","David Bowie",LocalDate.parse("1969-12-08"),19.99,"Rock")));
 
         this.mockMvc
                 .perform(MockMvcRequestBuilders.get("/album"))
@@ -49,7 +49,7 @@ class WebLayerTests {
                 .perform(MockMvcRequestBuilders
                         .post("/album")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"albumID\":\"1\",\"albumTitle\":\"Abbey Road\",\"artist\":\"The Beatles\",\"releaseDate\":\"07-10-1966\",\"price\":\"19.99\"}"))
+                        .content("{\"albumID\":\"1\",\"albumTitle\":\"Abbey Road\",\"artist\":\"The Beatles\",\"releaseDate\":\"1966-10-07\",\"price\":\"19.99\",\"albumGenre\":\"Rock\"}"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.status",Matchers.is("CREATED")));
 
@@ -58,7 +58,7 @@ class WebLayerTests {
     @Test
     void shouldFindSpecificAlbum() throws Exception {
 
-        when(albumService.findAlbumById(2)).thenReturn(new AlbumDTOResponse("Abbey Road","The Beatles",LocalDate.parse("1969-12-08"),19.99));
+        when(albumService.findAlbumById(2)).thenReturn(new AlbumDTOResponse("Abbey Road","The Beatles",LocalDate.parse("1969-12-08"),19.99,"Rock"));
 
         this.mockMvc
                 .perform(MockMvcRequestBuilders.get("/album/2"))
@@ -81,4 +81,31 @@ class WebLayerTests {
 
     }
 
+
+    @Test
+    void shouldFailAddNewAlbumOnValidation() throws Exception {
+
+        this.mockMvc
+                .perform(MockMvcRequestBuilders
+                        .post("/album")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"albumTitle\":\"Abbey Road\",\"artist\":\"The Beatles\",\"releaseDate\":\"1966-10-07\",\"price\":\"19.99\",\"albumGenre\":\"Rock\"}"))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.status",Matchers.is("CREATED")));
+
+    }
+
+
+    @Test
+    void shouldFailCustomAlbumGenreValidation() throws Exception {
+
+        this.mockMvc
+                .perform(MockMvcRequestBuilders
+                        .post("/album")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\"albumTitle\":\"Abbey Road\",\"artist\":\"The Beatles\",\"releaseDate\":\"1966-10-07\",\"price\":\"19.99\",\"albumGenre\":\"Metal\"}"))
+                .andExpect(MockMvcResultMatchers.status().is4xxClientError());
+
+
+    }
 }

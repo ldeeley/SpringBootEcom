@@ -1,6 +1,7 @@
 package com.example.springbootecom.dto;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import com.example.springbootecom.annotation.AlbumGenreValidation;
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,10 +14,19 @@ import java.time.LocalDate;
 @Builder
 public class AlbumDTORequest {
 
+    @NotNull
+    @NotEmpty(message = "Cannot have a blank Album Title")
     private String albumTitle;
+    @NotNull
+    @NotEmpty(message = "Cannot have a blank Artist")
     private String artist;
-    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern="dd-MM-yyyy")
+//    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern="dd-MM-yyyy")
+//    @Past(message = "Date must be in the past")
     private LocalDate releaseDate;
+    @Positive(message = "Price can not be zero or less")
     private double price;
-
+    @AlbumGenreValidation
+    @NotNull
+    @NotEmpty
+    private String albumGenre;
 }

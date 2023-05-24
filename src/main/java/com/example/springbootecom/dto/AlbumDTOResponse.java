@@ -16,8 +16,8 @@ public class AlbumDTOResponse {
 
     private String albumTitle;
     private String artist;
-    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern="dd-MM-yyyy")
+    @JsonFormat(shape = JsonFormat.Shape.STRING,pattern="yyyy-MM-dd")
     private LocalDate releaseDate;
     private double price;
-
+    private String albumGenre;
 }

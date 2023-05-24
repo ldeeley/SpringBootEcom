@@ -4,6 +4,7 @@ import com.example.springbootecom.dto.AlbumDTORequest;
 import com.example.springbootecom.dto.AlbumDTOResponse;
 import com.example.springbootecom.dto.ServiceResponse;
 import com.example.springbootecom.service.AlbumService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +27,7 @@ public class AlbumController {
     }
 
     @PostMapping
-    public ServiceResponse<AlbumDTOResponse> saveAlbumById(@RequestBody AlbumDTORequest albumDTORequest){
+    public ServiceResponse<AlbumDTOResponse> saveAlbumById(@RequestBody @Valid AlbumDTORequest albumDTORequest){
         AlbumDTOResponse newAlbumDTOResponse = albumService.addNewAlbum(albumDTORequest);
         return new ServiceResponse<>(HttpStatus.CREATED,newAlbumDTOResponse);
     }
@@ -45,7 +46,7 @@ public class AlbumController {
 
 
     @PutMapping("/{id}")
-    public ServiceResponse<AlbumDTOResponse> updateAlbumById(@PathVariable Integer id, @RequestBody AlbumDTORequest albumDTORequest){
+    public ServiceResponse<AlbumDTOResponse> updateAlbumById(@PathVariable Integer id, @RequestBody  @Valid AlbumDTORequest albumDTORequest){
         AlbumDTOResponse albumDTOResponse = albumService.updateAlbum(id,albumDTORequest);
         return new ServiceResponse<>(HttpStatus.OK,albumDTOResponse);
     }
