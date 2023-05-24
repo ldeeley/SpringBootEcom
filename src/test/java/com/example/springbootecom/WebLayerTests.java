@@ -1,7 +1,7 @@
 package com.example.springbootecom;
 
 import com.example.springbootecom.controller.AlbumController;
-import com.example.springbootecom.dto.AlbumDTO;
+import com.example.springbootecom.dto.AlbumDTOResponse;
 import com.example.springbootecom.service.AlbumService;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.Test;
@@ -19,7 +19,7 @@ import java.util.List;
 import static org.mockito.Mockito.when;
 
 @WebMvcTest(AlbumController.class)
-class SpringBootEcomApplicationTests {
+class WebLayerTests {
 
     @MockBean
     private AlbumService albumService;
@@ -31,15 +31,15 @@ class SpringBootEcomApplicationTests {
     void shouldReturnListOfAlbums() throws Exception {
 
         when(albumService.findAllAlbums()).thenReturn(List.of(
-                new AlbumDTO(1,"Dark Side of the Moon","Pink Floyd", LocalDate.parse("1966-11-07"),19.99),
-                new AlbumDTO(2,"Abbey Road","The Beatles",LocalDate.parse("1969-12-08"),19.99),
-                new AlbumDTO(2,"Hunky Dory","David Bowie",LocalDate.parse("1969-12-08"),19.99)));
+                new AlbumDTOResponse("Dark Side of the Moon","Pink Floyd", LocalDate.parse("1966-11-07"),19.99),
+                new AlbumDTOResponse("Abbey Road","The Beatles",LocalDate.parse("1969-12-08"),19.99),
+                new AlbumDTOResponse("Hunky Dory","David Bowie",LocalDate.parse("1969-12-08"),19.99)));
 
         this.mockMvc
                 .perform(MockMvcRequestBuilders.get("/album"))
                         .andExpect(MockMvcResultMatchers.status().isOk())
-                        .andExpect(MockMvcResultMatchers.jsonPath("$.size()", Matchers.is(3)))
-                        .andExpect(MockMvcResultMatchers.jsonPath("$[0].albumTitle").value("Dark Side of the Moon"));
+                        .andExpect(MockMvcResultMatchers.jsonPath("$.response.size()", Matchers.is(3)))
+                        .andExpect(MockMvcResultMatchers.jsonPath("$.response[0].albumTitle").value("Dark Side of the Moon"));
     }
 
     @Test
@@ -50,19 +50,20 @@ class SpringBootEcomApplicationTests {
                         .post("/album")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"albumID\":\"1\",\"albumTitle\":\"Abbey Road\",\"artist\":\"The Beatles\",\"releaseDate\":\"07-10-1966\",\"price\":\"19.99\"}"))
-                .andExpect(MockMvcResultMatchers.status().isCreated());
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.status",Matchers.is("CREATED")));
 
     }
 
     @Test
     void shouldFindSpecificAlbum() throws Exception {
 
-        when(albumService.findAlbumById(2)).thenReturn(new AlbumDTO(2,"Abbey Road","The Beatles",LocalDate.parse("1969-12-08"),19.99));
+        when(albumService.findAlbumById(2)).thenReturn(new AlbumDTOResponse("Abbey Road","The Beatles",LocalDate.parse("1969-12-08"),19.99));
 
         this.mockMvc
                 .perform(MockMvcRequestBuilders.get("/album/2"))
                 .andExpect(MockMvcResultMatchers.status().isOk())
-                .andExpect(MockMvcResultMatchers.jsonPath("albumTitle").value("Abbey Road"));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.response.albumTitle").value("Abbey Road"));
 
     }
 
@@ -72,6 +73,11 @@ class SpringBootEcomApplicationTests {
         this.mockMvc
                 .perform(MockMvcRequestBuilders.delete("/album/2"))
                 .andExpect(MockMvcResultMatchers.status().isNoContent());
+    }
+
+    @Test
+    void shouldUpdateAlbumByID() {
+
 
     }
 

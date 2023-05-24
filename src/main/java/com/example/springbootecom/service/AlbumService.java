@@ -1,42 +1,49 @@
 package com.example.springbootecom.service;
 
-import com.example.springbootecom.dto.AlbumDTO;
+import com.example.springbootecom.dto.AlbumDTORequest;
+import com.example.springbootecom.dto.AlbumDTOResponse;
+import com.example.springbootecom.model.AlbumEntity;
+import com.example.springbootecom.repository.AlbumRepository;
+import com.example.springbootecom.util.AppUtils;
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
+import java.util.stream.Collectors;
 
 @Service
+@AllArgsConstructor
 public class AlbumService {
 
-    private List<AlbumDTO> albumDTOList = new ArrayList<>();
+    private AlbumRepository albumRepository;
 
 //    save Album to DB
-    public AlbumDTO addNewAlbum(AlbumDTO albumDTO){
-        albumDTO.setAlbumID(new Random().nextInt(3756));
-        albumDTOList.add(albumDTO);
-        return albumDTO;
+    public AlbumDTOResponse addNewAlbum(AlbumDTORequest albumDTORequest){
+        AlbumEntity albumEntity = albumRepository.save(AppUtils.mapAlbumDTORequestToAlbumEntity(albumDTORequest));
+        return AppUtils.mapAlbumEntityToAlbumDTOResponse(albumEntity);
     }
 
 //    return All Albums in DB
-    public List<AlbumDTO> findAllAlbums(){
-        return albumDTOList;
+    public List<AlbumDTOResponse> findAllAlbums(){
+        ArrayList<AlbumEntity> albumEntityList = new ArrayList<>();
+        albumRepository.findAll().forEach(albumEntityList::add);
+        return albumEntityList.stream().map(AppUtils::mapAlbumEntityToAlbumDTOResponse).collect(Collectors.toList());
     }
 
 //    find an Album by ID - or else Null (handle this later)
-    public AlbumDTO findAlbumById(Integer albumId){
-        return albumDTOList.stream().filter(albumDTO -> albumDTO.getAlbumID()==albumId).findFirst().orElse(null);
+    public AlbumDTOResponse findAlbumById(Integer albumId){
+        AlbumEntity albumEntity = albumRepository.findById(albumId).orElseThrow(()->new RuntimeException("No such Album with AlbumId "+albumId));
+        return AppUtils.mapAlbumEntityToAlbumDTOResponse(albumEntity);
     }
 
     public void deleteAlbumById(Integer albumId){
-        AlbumDTO albumDTO =findAlbumById(albumId);
-        albumDTOList.remove(albumDTO);
+        albumRepository.deleteById(albumId);
     }
 
-    public AlbumDTO updateAlbum(Integer albumId, AlbumDTO albumDTO){
-        addNewAlbum(albumDTO);
-        return albumDTO;
+    public AlbumDTOResponse updateAlbum(Integer albumId, AlbumDTORequest albumDTORequest){
+        AlbumEntity albumEntity = albumRepository.save(AppUtils.mapAlbumDTORequestToAlbumEntity(albumDTORequest));
+        return AppUtils.mapAlbumEntityToAlbumDTOResponse(albumEntity);
     }
 
 }

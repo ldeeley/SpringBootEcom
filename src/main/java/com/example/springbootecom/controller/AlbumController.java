@@ -1,6 +1,8 @@
 package com.example.springbootecom.controller;
 
-import com.example.springbootecom.dto.AlbumDTO;
+import com.example.springbootecom.dto.AlbumDTORequest;
+import com.example.springbootecom.dto.AlbumDTOResponse;
+import com.example.springbootecom.dto.ServiceResponse;
 import com.example.springbootecom.service.AlbumService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,21 +20,21 @@ public class AlbumController {
     private AlbumService albumService;
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> findAlbumById(@PathVariable Integer id){
-        AlbumDTO albumDTO = albumService.findAlbumById(id);
-        return new ResponseEntity<>(albumDTO,HttpStatus.OK);
+    public ServiceResponse<AlbumDTOResponse> findAlbumById(@PathVariable Integer id){
+        AlbumDTOResponse albumDTOResponse = albumService.findAlbumById(id);
+        return new ServiceResponse<>(HttpStatus.OK,albumDTOResponse);
     }
 
     @PostMapping
-    public ResponseEntity<?> saveAlbumById(@RequestBody AlbumDTO albumDTO){
-        AlbumDTO newAlbumDTO = albumService.addNewAlbum(albumDTO);
-        return new ResponseEntity<>(newAlbumDTO, HttpStatus.CREATED);
+    public ServiceResponse<AlbumDTOResponse> saveAlbumById(@RequestBody AlbumDTORequest albumDTORequest){
+        AlbumDTOResponse newAlbumDTOResponse = albumService.addNewAlbum(albumDTORequest);
+        return new ServiceResponse<>(HttpStatus.CREATED,newAlbumDTOResponse);
     }
 
     @GetMapping()
-    public ResponseEntity<?> findAllAlbums(){
-        List<AlbumDTO> albumlist = albumService.findAllAlbums();
-        return new ResponseEntity<>(albumlist,HttpStatus.OK);
+    public ServiceResponse<List<AlbumDTOResponse>> findAllAlbums(){
+        List<AlbumDTOResponse> albumlist = albumService.findAllAlbums();
+        return new ServiceResponse<>(HttpStatus.OK,albumlist);
     }
 
     @DeleteMapping("/{id}")
@@ -43,8 +45,9 @@ public class AlbumController {
 
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateAlbumById(@PathVariable Integer id, @RequestBody AlbumDTO albumDTO){
-        return new ResponseEntity<>(albumService.updateAlbum(id, albumDTO),HttpStatus.OK);
+    public ServiceResponse<AlbumDTOResponse> updateAlbumById(@PathVariable Integer id, @RequestBody AlbumDTORequest albumDTORequest){
+        AlbumDTOResponse albumDTOResponse = albumService.updateAlbum(id,albumDTORequest);
+        return new ServiceResponse<>(HttpStatus.OK,albumDTOResponse);
     }
 
 }
