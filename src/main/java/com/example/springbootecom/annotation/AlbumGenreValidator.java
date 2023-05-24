@@ -6,7 +6,7 @@ import jakarta.validation.ConstraintValidatorContext;
 import java.util.Arrays;
 import java.util.List;
 
-public class CourseTypeValidator implements ConstraintValidator<AlbumGenreValidation,String> {
+public class AlbumGenreValidator implements ConstraintValidator<AlbumGenreValidation,String> {
     @Override
     public boolean isValid(String albumGenre, ConstraintValidatorContext constraintValidatorContext) {
         List<String> list = Arrays.asList("Jazz","Pop","Rock","Blues");

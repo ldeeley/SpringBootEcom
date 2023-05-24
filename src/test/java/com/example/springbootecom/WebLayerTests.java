@@ -105,7 +105,5 @@ class WebLayerTests {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("{\"albumTitle\":\"Abbey Road\",\"artist\":\"The Beatles\",\"releaseDate\":\"1966-10-07\",\"price\":\"19.99\",\"albumGenre\":\"Metal\"}"))
                 .andExpect(MockMvcResultMatchers.status().is4xxClientError());
-
-
     }
 }

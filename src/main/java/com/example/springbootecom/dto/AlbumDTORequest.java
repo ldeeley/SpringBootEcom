@@ -26,7 +26,7 @@ public class AlbumDTORequest {
     @Positive(message = "Price can not be zero or less")
     private double price;
     @AlbumGenreValidation
-    @NotNull
-    @NotEmpty
+    @NotNull(message = "Can not have a blank albumGenre")
+    @NotEmpty(message = "Can not have a empty albumGenre")
     private String albumGenre;
 }

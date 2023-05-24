@@ -8,7 +8,7 @@ import java.lang.annotation.*;
 @Target({ElementType.FIELD,ElementType.PARAMETER})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-@Constraint(validatedBy = CourseTypeValidator.class)
+@Constraint(validatedBy = AlbumGenreValidator.class)
 public @interface AlbumGenreValidation {
 
     String message() default "Album Genre is not valid";
