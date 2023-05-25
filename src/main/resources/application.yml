@@ -1,0 +1,19 @@
+
+spring:
+  h2:
+    console:
+     enabled: true
+    driver:
+      username: sa
+      password:
+  datasource:
+     url: jdbc:h2:mem:testdb
+  output:
+     ansi:
+       enabled: always
+logging:
+  level:
+    com.example.springbootecom: DEBUG
+  file:
+    name: app.log
+

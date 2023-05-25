@@ -25,5 +25,27 @@ public class ApplicationGlobalExceptionHandler {
         return serviceResponse;
     }
 
+    //AlbumNotFoundException
+    @ExceptionHandler(AlbumNotFoundException.class)
+    public ServiceResponse<?> albumNotFoundException(AlbumNotFoundException exception){
+        ServiceResponse<?> serviceResponse = new ServiceResponse<>();
+        List<ErrorDTO> errorDTOList=new ArrayList<>();
+        errorDTOList.add(new ErrorDTO(exception.getMessage()));
+        serviceResponse.setStatus(HttpStatus.BAD_REQUEST);
+        serviceResponse.setErrorDTOList(errorDTOList);
+        return serviceResponse;
+    }
 
+    //AlbumServiceBusinessException
+    @ExceptionHandler(AlbumServiceBusinessException.class)
+    public ServiceResponse<?> albumNotFoundException(AlbumServiceBusinessException exception){
+        ServiceResponse<?> serviceResponse = new ServiceResponse<>();
+        List<ErrorDTO> errorDTOList=new ArrayList<>();
+        errorDTOList.add(new ErrorDTO(exception.getMessage()));
+        serviceResponse.setStatus(HttpStatus.INTERNAL_SERVER_ERROR);
+        serviceResponse.setErrorDTOList(errorDTOList);
+        return serviceResponse;
+    }
 }
+
+
