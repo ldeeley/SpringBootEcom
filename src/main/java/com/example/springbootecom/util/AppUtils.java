@@ -16,6 +16,7 @@ public class AppUtils {
                 .artist(albumDTORequest.getArtist())
                 .releaseDate(albumDTORequest.getReleaseDate())
                 .price(albumDTORequest.getPrice())
+                .albumGenre(albumDTORequest.getAlbumGenre())
                 .build();
     }
 
@@ -25,6 +26,7 @@ public class AppUtils {
                 .artist(albumEntity.getArtist())
                 .releaseDate(albumEntity.getReleaseDate())
                 .price(albumEntity.getPrice())
+                .albumGenre(albumEntity.getAlbumGenre())
                 .build();
     }
 

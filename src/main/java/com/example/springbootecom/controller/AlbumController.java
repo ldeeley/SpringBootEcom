@@ -5,6 +5,7 @@ import com.example.springbootecom.dto.AlbumDTOResponse;
 import com.example.springbootecom.dto.ServiceResponse;
 import com.example.springbootecom.service.AlbumService;
 import com.example.springbootecom.util.AppUtils;
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,6 +23,7 @@ public class AlbumController {
     
     private AlbumService albumService;
 
+    @Operation(summary = "Retrieve Album by Id")
     @GetMapping("/{id}")
     public ServiceResponse<AlbumDTOResponse> findAlbumById(@PathVariable Integer id){
         log.info("AlbumController:: findAlbumById called {}", id);
@@ -29,6 +31,7 @@ public class AlbumController {
         return new ServiceResponse<>(HttpStatus.OK,albumDTOResponse);
     }
 
+    @Operation(summary = "Save an Album to the database")
     @PostMapping
     public ServiceResponse<AlbumDTOResponse> saveAlbumById(@RequestBody @Valid AlbumDTORequest albumDTORequest){
         log.info("AlbumController:: saveAlbumById : {}", AppUtils.payloadToJSON(albumDTORequest));
@@ -36,6 +39,7 @@ public class AlbumController {
         return new ServiceResponse<>(HttpStatus.CREATED,newAlbumDTOResponse);
     }
 
+    @Operation(summary = "Get all Albums from the database")
     @GetMapping()
     public ServiceResponse<List<AlbumDTOResponse>> findAllAlbums(){
         log.info("AlbumController:: findAllAlbums called...");
@@ -43,6 +47,7 @@ public class AlbumController {
         return new ServiceResponse<>(HttpStatus.OK,albumlist);
     }
 
+    @Operation(summary = "Delete Album with id from the database")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteAlbumById(@PathVariable Integer id){
         log.info("AlbumController:: deleteAlbumById called...{}",id);
@@ -51,6 +56,7 @@ public class AlbumController {
     }
 
 
+    @Operation(summary = "Update Album with Id")
     @PutMapping("/{id}")
     public ServiceResponse<AlbumDTOResponse> updateAlbumById(@PathVariable Integer id, @RequestBody  @Valid AlbumDTORequest albumDTORequest){
         log.info("AlbumController:: updateAlbumById : {}", AppUtils.payloadToJSON(albumDTORequest));

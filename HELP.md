@@ -6,14 +6,14 @@ For further reference, please consider the following sections:
 #### Web
 * _Spring Boot Starter Web_
 * Lombok
-* Web Layer - REST endpoints, HTTP methods
+* Web Layer - REST endpoints, HTTP methods added to Package com.example.springbootecom.controller
 * Web Layer Testing - @WebMVCTest(AlbumController.class) / MockMVC
 * _Spring Boot Starter Validation_
 * Validation of **AlbumRequestDTO** at REST endpoints
 * Custom Validation aswell as Spring out-of-the-box validations
 
 #### Exception Handling
-* Add an Exception Handler _@RestControllerAdvice_
+* Add an Exception Handler _@RestControllerAdvice_ Package com.example.springbootecom.exception
 * Bespoke ServiceResponse (instead of ResponseEntity) to improve Response to User
 
 #### Data Layer
@@ -59,5 +59,25 @@ logging:
 * Add logging into Service and Controller
 * Handler - Write to logfile
 
-#### Documentation using Swagger & OpenAPI 3
+#### Documentation using Swagger/OpenAPI 3
 
+```xml
+<dependency>
+    <groupId>org.springdoc</groupId>
+    <artifactId>springdoc-openapi-ui</artifactId>
+    <version>1.6.4</version>
+</dependency>
+```
+then use this link
+
+```plaintext
+http://localhost:8080/swagger-ui/index.html
+```
+or
+```plaintext
+http://localhost:8080/v3/api-docs
+```
+
+for JSON
+
+![Swagger Doc](src/main/resources/Swagger.png)

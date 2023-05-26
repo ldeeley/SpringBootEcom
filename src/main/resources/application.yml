@@ -16,4 +16,6 @@ logging:
     com.example.springbootecom: DEBUG
   file:
     name: app.log
-
+springdoc:
+  swagger-ui.path: /swagger-ui.html
+  swagger-ui.url: /v3/api-docs
